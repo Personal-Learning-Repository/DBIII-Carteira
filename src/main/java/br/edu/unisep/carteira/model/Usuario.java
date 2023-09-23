@@ -38,6 +38,7 @@ public class Usuario {
     @Column(name = "senha", nullable = false, length = 75)
     private String senha;
 
+    //TODO Mostrar só o saldo
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "cod_carteira")
     private Carteira carteira;
@@ -63,4 +64,8 @@ public class Usuario {
     @JsonIgnore
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transacao> transacoes = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Extrato> extratos = new ArrayList<>();
 }

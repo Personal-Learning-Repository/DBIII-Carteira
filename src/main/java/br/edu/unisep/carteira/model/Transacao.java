@@ -1,9 +1,11 @@
 package br.edu.unisep.carteira.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "transacao")
@@ -30,4 +32,8 @@ public class Transacao {
 
     @Column(name = "descricao", nullable = false)
     private String descricao;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "transacoes", cascade = CascadeType.ALL)
+    private List<Extrato> extratos;
 }
