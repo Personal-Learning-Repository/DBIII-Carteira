@@ -3,7 +3,6 @@ package br.edu.unisep.carteira.publisher;
 import br.edu.unisep.carteira.event.DepositoEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import br.edu.unisep.carteira.model.Transacao;

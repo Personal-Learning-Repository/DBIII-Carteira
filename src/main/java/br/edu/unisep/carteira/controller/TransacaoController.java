@@ -36,9 +36,6 @@ public class TransacaoController {
     @Autowired
     private SaqueEventPublisher saqueEventPublisher;
 
-//    @Autowired
-//    private TransferenciaEventPublisher transferenciaEventPublisher;
-
     //TODO Get by data / intervalo
     //TODO Apenas transações do usuário
     //TODO Código repetido

@@ -86,6 +86,7 @@ public class ExtratoController {
                 contentStream.setFont(font, 12);
                 contentStream.beginText();
                 contentStream.newLineAtOffset(50, 700);
+                //TODO pegar email
                 contentStream.showText("Extrato de " + usuario.getNome());
                 contentStream.newLine();
                 contentStream.showText("Intervalo de data: " + dataIni + " a " + dataFim);
@@ -132,6 +133,7 @@ public class ExtratoController {
 
         pdfService.generateAndCache(extrato.getId(), pdfBytes);
 
+        //TODO Esconder o link
         String link = "http://localhost:8080/api/v1/extrato/" + extrato.getId();
 
         return ResponseEntity.ok(link);

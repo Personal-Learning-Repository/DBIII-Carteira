@@ -41,12 +41,12 @@ public class UsuarioController {
 
     //TODO Melhorar Output ?
     @GetMapping("/usuarios/saldo/{id}")
-    public ResponseEntity<Double> getSaldo(@PathVariable(value = "id") Long usuarioId)
+    public ResponseEntity<String> getSaldo(@PathVariable(value = "id") Long usuarioId)
         throws ResourceNotFoundException {
             Usuario usuario = usuarioRepository.findById(usuarioId).orElseThrow(() ->
                 new ResourceNotFoundException("User not found for this id :: " + usuarioId));
 
-            Double saldo = usuario.getCarteira().getSaldo();
+            String saldo = "Seu saldo é: R$" + usuario.getCarteira().getSaldo();
             return ResponseEntity.ok().body(saldo);
     }
 

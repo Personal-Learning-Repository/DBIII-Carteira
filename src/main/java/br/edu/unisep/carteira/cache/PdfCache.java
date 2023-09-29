@@ -19,7 +19,4 @@ public class PdfCache {
         return pdfCache.get(id);
     }
 
-    public void remove(Long id) {
-        pdfCache.remove(id);
-    }
 }
