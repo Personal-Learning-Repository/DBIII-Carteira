@@ -106,6 +106,7 @@ public class ExtratoController {
                 contentStream.endText();
             }
 
+            //TODO Função
             String password = usuario.getCpf()
                     .substring(0,
                             Math.min(usuario

@@ -59,8 +59,7 @@ public class TransacaoController {
     }
 
     @PostMapping("/transacoes/deposito")
-    public Transacao deposito(@RequestBody Transacao transacao)
-        throws ResourceNotFoundException {
+    public Transacao deposito(@RequestBody Transacao transacao) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
