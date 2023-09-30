@@ -107,7 +107,7 @@ public class UsuarioController {
             usuario.setSenha(detalhes.getSenha());
         }
 
-        if (detalhes.getNome() != null) {
+        if (currentUsuario.getNome() != null) {
             usuario.setAtualizadoPor(currentUsuario.getNome());
         } else {
             usuario.setAtualizadoPor(currentUsuario.getEmail());
