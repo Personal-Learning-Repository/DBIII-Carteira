@@ -1,5 +1,6 @@
 package br.edu.unisep.carteira.controller;
 
+import br.edu.unisep.carteira.helpers.GetUserByToken;
 import br.edu.unisep.carteira.publisher.DepositoEventPublisher;
 import br.edu.unisep.carteira.publisher.SaqueEventPublisher;
 import br.edu.unisep.carteira.exception.ResourceNotFoundException;
@@ -8,10 +9,6 @@ import br.edu.unisep.carteira.model.Usuario;
 import br.edu.unisep.carteira.repository.TransacaoRepository;
 import br.edu.unisep.carteira.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -36,6 +33,9 @@ public class TransacaoController {
     @Autowired
     private SaqueEventPublisher saqueEventPublisher;
 
+    @Autowired
+    private GetUserByToken getUserByToken;
+
     //TODO Get by data / intervalo
     //TODO Apenas transações do usuário
     //TODO Código repetido
@@ -45,27 +45,16 @@ public class TransacaoController {
     public List<Transacao> getAllTransacoes()
         throws ResourceNotFoundException {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication instanceof UsernamePasswordAuthenticationToken) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-            Usuario usuario = usuarioRepository.findByEmail(userDetails.getUsername());
+            Usuario usuario = getUserByToken.getUserByToken();
 
             return transacaoRepository.findByUsuario(usuario.getId());
-        } else {
-            throw new ResourceNotFoundException("Usuário não autenticado");
-        }
     }
 
     @PostMapping("/transacoes/deposito")
-    public Transacao deposito(@RequestBody Transacao transacao) {
+    public Transacao deposito(@RequestBody Transacao transacao)
+            throws ResourceNotFoundException {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-        Usuario usuario = usuarioRepository.findByEmail(userDetails.getUsername());
+        Usuario usuario = getUserByToken.getUserByToken();
 
         transacao.setUsuario(usuario);
         transacao.setData(new Date());
@@ -88,15 +77,12 @@ public class TransacaoController {
     public Transacao saque(@RequestBody Transacao transacao)
         throws ResourceNotFoundException {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-        Usuario usuario = usuarioRepository.findByEmail(userDetails.getUsername());
+        Usuario usuario = getUserByToken.getUserByToken();
 
         transacao.setUsuario(usuario);
         transacao.setData(new Date());
 
+        //TODO Name email check
         if (transacao.getDescricao() == null) {
             transacao.setDescricao("Saque de R$" + transacao.getValor() + " para " + usuario.getNome());
         }
@@ -119,11 +105,7 @@ public class TransacaoController {
     public Transacao transferencia(@RequestBody Transacao transacao)
         throws ResourceNotFoundException {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-        Usuario remetente = usuarioRepository.findByEmail(userDetails.getUsername());
+        Usuario remetente = getUserByToken.getUserByToken();
 
         Usuario destinatario = usuarioRepository.findById(transacao.getUsuario().getId()).orElseThrow(() ->
             new ResourceNotFoundException("Usuário não encontrado :: " + transacao.getUsuario().getId()));

@@ -1,12 +1,12 @@
 package br.edu.unisep.carteira.controller;
 
 import br.edu.unisep.carteira.exception.ResourceNotFoundException;
+import br.edu.unisep.carteira.helpers.GetUserByToken;
 import br.edu.unisep.carteira.model.Extrato;
 import br.edu.unisep.carteira.model.Transacao;
 import br.edu.unisep.carteira.model.Usuario;
 import br.edu.unisep.carteira.repository.ExtratoRepository;
 import br.edu.unisep.carteira.repository.TransacaoRepository;
-import br.edu.unisep.carteira.repository.UsuarioRepository;
 import br.edu.unisep.carteira.service.PdfService;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -19,9 +19,6 @@ import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayOutputStream;
@@ -39,25 +36,23 @@ public class ExtratoController {
     private ExtratoRepository extratoRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
     private TransacaoRepository transacaoRepository;
 
     @Autowired
     private PdfService pdfService;
 
+    @Autowired
+    private GetUserByToken getUserByToken;
+
     //TODO DTO pras datas
     @PostMapping("/extrato/{dataIni}/{dataFim}")
     public ResponseEntity<String> gerarExtrato(@PathVariable String dataIni,
                                                 @PathVariable String dataFim)
-            throws ParseException, IOException {
+            throws ParseException, IOException, ResourceNotFoundException {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        Usuario usuario = usuarioRepository.findByEmail(userDetails.getUsername());
+        Usuario usuario = getUserByToken.getUserByToken();
 
         Extrato extrato = new Extrato();
         extrato.setUsuario(usuario);
@@ -143,6 +138,7 @@ public class ExtratoController {
     @GetMapping("/extrato/{id}")
     public ResponseEntity<byte[]> getExtrato(@PathVariable(value = "id") Long extratoId) throws
             ResourceNotFoundException, AccessDeniedException {
+
         Extrato extrato = extratoRepository.findById(extratoId).orElseThrow(() ->
                 new ResourceNotFoundException("Extrato not found for this id :: " + extratoId));
 

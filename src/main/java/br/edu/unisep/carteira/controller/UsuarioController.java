@@ -1,6 +1,7 @@
 package br.edu.unisep.carteira.controller;
 
 import br.edu.unisep.carteira.exception.ResourceNotFoundException;
+import br.edu.unisep.carteira.helpers.GetUserByToken;
 import br.edu.unisep.carteira.model.Carteira;
 import br.edu.unisep.carteira.model.Usuario;
 import br.edu.unisep.carteira.repository.CarteiraRepository;
@@ -20,11 +21,16 @@ import java.util.Map;
 @RequestMapping("/api/v1")
 public class UsuarioController {
 
+    //TODO Pedir ajuda auths
+
     @Autowired
     private UsuarioRepository usuarioRepository;
 
     @Autowired
     private CarteiraRepository carteiraRepository;
+
+    @Autowired
+    private GetUserByToken getUserByToken;
 
     @GetMapping("/usuarios")
     public List<Usuario> getAllUsers() {
@@ -39,7 +45,6 @@ public class UsuarioController {
         return ResponseEntity.ok().body(usuario);
     }
 
-    //TODO Melhorar Output ?
     @GetMapping("/usuarios/saldo/{id}")
     public ResponseEntity<String> getSaldo(@PathVariable(value = "id") Long usuarioId)
         throws ResourceNotFoundException {
@@ -54,15 +59,17 @@ public class UsuarioController {
 
     @PostMapping("/usuarios")
     @Transactional
-    public Usuario createUser(@Validated @RequestBody Usuario usuario) {
+    public Usuario createUser(@Validated @RequestBody Usuario usuario)
+            throws ResourceNotFoundException {
+
+        Usuario currentUsuario = getUserByToken.getUserByToken();
 
         usuario.setCriadoEm(new Date());
 
-        //TODO Usuário autenticado
         if (usuario.getNome() != null) {
-            usuario.setCriadoPor(usuario.getNome());
+            usuario.setCriadoPor(currentUsuario.getNome());
         } else {
-            usuario.setCriadoPor(usuario.getEmail());
+            usuario.setCriadoPor(currentUsuario.getEmail());
         }
 
         Carteira carteira = new Carteira();
@@ -78,8 +85,11 @@ public class UsuarioController {
     public ResponseEntity<Usuario> updateUser(@PathVariable(value = "id") Long usuarioId,
                                               @Validated @RequestBody Usuario detalhes)
         throws ResourceNotFoundException {
+
         Usuario usuario = usuarioRepository.findById(usuarioId)
             .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + usuarioId));
+
+        Usuario currentUsuario = getUserByToken.getUserByToken();
 
         if (detalhes.getCpf() != null) {
             usuario.setCpf(detalhes.getCpf());
@@ -97,11 +107,10 @@ public class UsuarioController {
             usuario.setSenha(detalhes.getSenha());
         }
 
-        //TODO Usuário autenticado
         if (detalhes.getNome() != null) {
-            usuario.setAtualizadoPor(detalhes.getNome());
+            usuario.setAtualizadoPor(currentUsuario.getNome());
         } else {
-            usuario.setAtualizadoPor(usuario.getEmail());
+            usuario.setAtualizadoPor(currentUsuario.getEmail());
         }
 
         usuario.setAtualizadoEm(new Date());
