@@ -2,6 +2,7 @@ package br.edu.unisep.carteira.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -25,8 +26,9 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    //TODO Min length
+    //TODO Redundancia
     @Column(name = "cpf", nullable = false, length = 11, unique = true)
+    @Size(min = 11, max = 11)
     private String cpf;
 
     @Column(name = "nome", length = 75)

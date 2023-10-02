@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class GetUserByToken {
 
+    //TODO Conferir boa pratica
+    //TODO Melhorar nome
+
     @Autowired
     UsuarioRepository usuarioRepository;
 

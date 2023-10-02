@@ -57,6 +57,7 @@ public class TransacaoController {
         Usuario usuario = getUserByToken.getUserByToken();
 
         transacao.setUsuario(usuario);
+        //TODO Date Util
         transacao.setData(new Date());
 
         if (transacao.getDescricao() == null) {
@@ -80,6 +81,7 @@ public class TransacaoController {
         Usuario usuario = getUserByToken.getUserByToken();
 
         transacao.setUsuario(usuario);
+        //TODO Date Util
         transacao.setData(new Date());
 
         //TODO Name email check
@@ -110,6 +112,7 @@ public class TransacaoController {
         Usuario destinatario = usuarioRepository.findById(transacao.getUsuario().getId()).orElseThrow(() ->
             new ResourceNotFoundException("Usuário não encontrado :: " + transacao.getUsuario().getId()));
 
+        //TODO Date Util
         transacao.setData(new Date());
 
         if (transacao.getDescricao() == null) {
@@ -128,6 +131,7 @@ public class TransacaoController {
 
         desTransacao.setValor(transacao.getValor());
         desTransacao.setUsuario(remetente);
+        //TODO Date Util
         desTransacao.setData(new Date());
         desTransacao.setDescricao(transacao.getDescricao());
 

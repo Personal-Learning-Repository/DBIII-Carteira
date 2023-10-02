@@ -3,6 +3,11 @@ package br.edu.unisep.carteira.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "carteira")
@@ -13,18 +18,28 @@ import lombok.*;
 @EqualsAndHashCode(of = "id")
 public class Carteira {
 
+    //TODO Conferir boa pratica
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    //TODO DB Default Value
     @Column(name = "saldo", nullable = false)
-    private Double saldo = 0.0;
+    @ColumnDefault(value = "0.0")
+    @org.hibernate.annotations.Generated
+    private Double saldo;
 
     @JsonIgnore
     @OneToOne(mappedBy = "carteira")
     private Usuario usuario;
 
-    //TODO Atualizado em ?
+    @Column(name = "atualizado_em")
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
+    private Date atualizadoEm;
+
+    @Column(name = "atualizado_por")
+    @LastModifiedBy
+    private String atualizadoPor;
 
 }

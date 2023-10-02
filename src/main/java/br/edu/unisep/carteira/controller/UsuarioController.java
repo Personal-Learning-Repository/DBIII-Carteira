@@ -64,6 +64,7 @@ public class UsuarioController {
 
         Usuario currentUsuario = getUserByToken.getUserByToken();
 
+        //TODO Date Util
         usuario.setCriadoEm(new Date());
 
         if (usuario.getNome() != null) {
@@ -113,6 +114,7 @@ public class UsuarioController {
             usuario.setAtualizadoPor(currentUsuario.getEmail());
         }
 
+        //TODO Data Util
         usuario.setAtualizadoEm(new Date());
 
         final Usuario updatedUsuario = usuarioRepository.save(usuario);

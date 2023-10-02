@@ -47,6 +47,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         novo.setNome(usuario.getNome());
         novo.setEmail(usuario.getEmail());
         novo.setSenha(bcryptEncoder.encode(usuario.getSenha()));
+        //TODO Date Util
         novo.setCriadoEm(new Date());
 
         if (usuario.getNome() != null) {
