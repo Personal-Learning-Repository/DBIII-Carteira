@@ -2,6 +2,7 @@ package br.edu.unisep.carteira.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.Date;
 import java.util.List;
@@ -29,9 +30,9 @@ public class Extrato {
     @JoinColumn(name = "data_fim", nullable = false)
     private Date data_fim;
 
-    //TODO Valor padrão
     @Column(name = "downloads", nullable = false)
-    private int downloads = 2;
+    @ColumnDefault(value = "2")
+    private int downloads;
 
     @ManyToMany
     @JoinTable(

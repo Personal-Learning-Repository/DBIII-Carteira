@@ -7,7 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.security.Security;
 
 @SpringBootApplication
-public class CarteiraApplication {
+public class
+CarteiraApplication {
+
+    //TODO Dockerizar
 
     public static void main(String[] args) {
         Security.addProvider(new BouncyCastleProvider());

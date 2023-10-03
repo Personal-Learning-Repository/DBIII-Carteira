@@ -40,7 +40,7 @@ public class Usuario {
     @Column(name = "senha", nullable = false, length = 75)
     private String senha;
 
-    //TODO Mostrar só o saldo
+    //TODO Mostrar só o saldo - DTO
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "cod_carteira")
     private Carteira carteira;
