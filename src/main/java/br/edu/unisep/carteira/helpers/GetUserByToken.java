@@ -18,7 +18,7 @@ public class GetUserByToken {
     @Autowired
     UsuarioRepository usuarioRepository;
 
-    public Usuario getUserByToken() throws ResourceNotFoundException {
+    public Usuario execute() throws ResourceNotFoundException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
