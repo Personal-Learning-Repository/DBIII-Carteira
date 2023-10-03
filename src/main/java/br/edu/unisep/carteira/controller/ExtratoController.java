@@ -53,7 +53,7 @@ public class ExtratoController {
         //TODO Date Util
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-        Usuario usuario = getUserByToken.execute();
+        Usuario usuario = getUserByToken.getUserByToken();
 
         Extrato extrato = new Extrato();
         extrato.setUsuario(usuario);

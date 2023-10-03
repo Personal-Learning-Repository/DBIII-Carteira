@@ -34,7 +34,7 @@ public class SaqueEventListener implements ApplicationListener<SaqueEvent> {
         Transacao transacao = event.getTransacao();
         Carteira carteira = transacao.getUsuario().getCarteira();
 
-        Usuario currentUsuario = getUserByToken.execute();
+        Usuario currentUsuario = getUserByToken.getUserByToken();
 
         carteira.setSaldo(carteira.getSaldo() - transacao.getValor());
 

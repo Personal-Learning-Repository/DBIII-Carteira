@@ -62,7 +62,7 @@ public class UsuarioController {
     public Usuario createUser(@Validated @RequestBody Usuario usuario)
             throws ResourceNotFoundException {
 
-        Usuario currentUsuario = getUserByToken.execute();
+        Usuario currentUsuario = getUserByToken.getUserByToken();
 
         //TODO Date Util
         usuario.setCriadoEm(new Date());
@@ -90,7 +90,7 @@ public class UsuarioController {
         Usuario usuario = usuarioRepository.findById(usuarioId)
             .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + usuarioId));
 
-        Usuario currentUsuario = getUserByToken.execute();
+        Usuario currentUsuario = getUserByToken.getUserByToken();
 
         if (detalhes.getCpf() != null) {
             usuario.setCpf(detalhes.getCpf());
