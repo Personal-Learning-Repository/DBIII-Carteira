@@ -53,7 +53,7 @@ public class ExtratoController {
         //TODO Date Util
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-        Usuario usuario = getUserByToken.getUserByToken();
+        Usuario usuario = getUserByToken.execute();
 
         Extrato extrato = new Extrato();
         extrato.setUsuario(usuario);
@@ -92,7 +92,7 @@ public class ExtratoController {
                     contentStream.newLine();
                     contentStream.showText("Valor: " + transacao.getValor());
                     contentStream.newLine();
-                    contentStream.showText("Usuario: " + transacao.getUsuario().getNome());
+                    contentStream.showText("Usuário: " + transacao.getUsuario().getNome());
                     contentStream.newLine();
                     contentStream.showText("Data: " + transacao.getData());
                     contentStream.newLine();

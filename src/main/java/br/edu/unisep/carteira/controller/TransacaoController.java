@@ -45,7 +45,7 @@ public class TransacaoController {
     public List<Transacao> getAllTransacoes()
         throws ResourceNotFoundException {
 
-            Usuario usuario = getUserByToken.getUserByToken();
+            Usuario usuario = getUserByToken.execute();
 
             return transacaoRepository.findByUsuario(usuario.getId());
     }
@@ -54,7 +54,7 @@ public class TransacaoController {
     public Transacao deposito(@RequestBody Transacao transacao)
             throws ResourceNotFoundException {
 
-        Usuario usuario = getUserByToken.getUserByToken();
+        Usuario usuario = getUserByToken.execute();
 
         transacao.setUsuario(usuario);
         //TODO Date Util
@@ -78,7 +78,7 @@ public class TransacaoController {
     public Transacao saque(@RequestBody Transacao transacao)
         throws ResourceNotFoundException {
 
-        Usuario usuario = getUserByToken.getUserByToken();
+        Usuario usuario = getUserByToken.execute();
 
         transacao.setUsuario(usuario);
         //TODO Date Util
@@ -107,7 +107,7 @@ public class TransacaoController {
     public Transacao transferencia(@RequestBody Transacao transacao)
         throws ResourceNotFoundException {
 
-        Usuario remetente = getUserByToken.getUserByToken();
+        Usuario remetente = getUserByToken.execute();
 
         Usuario destinatario = usuarioRepository.findById(transacao.getUsuario().getId()).orElseThrow(() ->
             new ResourceNotFoundException("Usuário não encontrado :: " + transacao.getUsuario().getId()));
