@@ -2,8 +2,12 @@ package br.edu.unisep.carteira.builder;
 
 import br.edu.unisep.carteira.dto.DisplayUsuarioDTO;
 import br.edu.unisep.carteira.model.Usuario;
+import org.springframework.stereotype.Component;
 
-public class DTOBuilder {
+import java.util.List;
+
+@Component
+public class UsuarioDTOBuilder {
 
     public DisplayUsuarioDTO build(Usuario usuario) {
         DisplayUsuarioDTO displayDTO = new DisplayUsuarioDTO();
@@ -17,5 +21,9 @@ public class DTOBuilder {
         displayDTO.setAtualizadoPor(usuario.getAtualizadoPor());
 
         return displayDTO;
+    }
+
+    public List<DisplayUsuarioDTO> build(List<Usuario> usuarios) {
+        return usuarios.stream().map(this::build).toList();
     }
 }

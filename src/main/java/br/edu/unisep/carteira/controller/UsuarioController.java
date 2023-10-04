@@ -1,5 +1,7 @@
 package br.edu.unisep.carteira.controller;
 
+import br.edu.unisep.carteira.builder.UsuarioDTOBuilder;
+import br.edu.unisep.carteira.dto.DisplayUsuarioDTO;
 import br.edu.unisep.carteira.exception.ResourceNotFoundException;
 import br.edu.unisep.carteira.helpers.GetUserByToken;
 import br.edu.unisep.carteira.model.Carteira;
@@ -32,17 +34,21 @@ public class UsuarioController {
     @Autowired
     private GetUserByToken getUserByToken;
 
+    @Autowired
+    private UsuarioDTOBuilder dtoBuilder;
+
     @GetMapping("/usuarios")
-    public List<Usuario> getAllUsers() {
-        return usuarioRepository.findAll();
+    public List<DisplayUsuarioDTO> getAllUsers() {
+        return dtoBuilder.build(usuarioRepository.findAll());
     }
 
     @GetMapping("/usuarios/{id}")
-    public ResponseEntity<Usuario> getUserById(@PathVariable(value = "id") Long usuarioId)
+    public ResponseEntity<DisplayUsuarioDTO> getUserById(@PathVariable(value = "id") Long usuarioId)
         throws ResourceNotFoundException {
             Usuario usuario = usuarioRepository.findById(usuarioId).orElseThrow(() ->
                 new ResourceNotFoundException("User not found for this id :: " + usuarioId));
-        return ResponseEntity.ok().body(usuario);
+            DisplayUsuarioDTO displayDTO = dtoBuilder.build(usuario);
+        return ResponseEntity.ok().body(displayDTO);
     }
 
     @GetMapping("/usuarios/saldo/{id}")

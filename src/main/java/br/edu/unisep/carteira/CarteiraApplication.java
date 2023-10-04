@@ -11,6 +11,7 @@ public class
 CarteiraApplication {
 
     //TODO Dockerizar
+    //TODO Paging nos controllers
 
     public static void main(String[] args) {
         Security.addProvider(new BouncyCastleProvider());
