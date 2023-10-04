@@ -16,4 +16,6 @@ public class DisplayUsuarioDTO {
     private Date atualizadoEm;
     private String atualizadoPor;
 
+    //TODO Mapper
+    //TODO Boa pratica
 }
