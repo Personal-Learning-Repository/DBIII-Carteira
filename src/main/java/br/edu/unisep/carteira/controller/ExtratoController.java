@@ -44,7 +44,6 @@ public class ExtratoController {
     @Autowired
     private GetUserByToken getUserByToken;
 
-    //TODO DTO pras datas
     @PostMapping("/extrato/{dataIni}/{dataFim}")
     public ResponseEntity<String> gerarExtrato(@PathVariable String dataIni,
                                                 @PathVariable String dataFim)
@@ -76,7 +75,7 @@ public class ExtratoController {
             try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
                 PDType0Font font = PDType0Font.load(document, new File(
                         //TODO Achar outra fonte
-                        "D:\\Documentos\\Code\\3-Semestre\\Programacao-Web-II\\carteira\\src\\main\\java\\br\\edu\\unisep\\carteira\\font\\JetBrainsMono\\ttf\\JetBrainsMono-Regular.ttf"
+                        ".src/main/"
                 ));
                 //TODO Formatação
                 contentStream.setFont(font, 12);
